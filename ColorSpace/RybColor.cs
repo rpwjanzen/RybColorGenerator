@@ -47,9 +47,6 @@ namespace ColorSpace
         /// <summary>
         /// Euclidian distance
         /// </summary>
-        /// <param name="color"></param>
-        /// <param name="other"></param>
-        /// <returns></returns>
         public static double DistanceSquared(RybColor color, RybColor other)
         {
             double redDistance = Math.Pow(color.Red - other.Red, 2);

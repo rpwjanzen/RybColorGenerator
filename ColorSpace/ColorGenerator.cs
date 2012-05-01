@@ -31,15 +31,21 @@ namespace ColorSpace
     /// </remarks>
     public sealed class ColorGenerator
     {
+        #region Fields
+
         // not the last picked color, but something else
         private RybColor m_picked;
 
         private readonly List<RybColor> m_colorPalette = new List<RybColor>();
         private int m_pickedColorCount = 0;
 
+        #endregion
+
+        #region Constructors
+
         public ColorGenerator(int paletteCount)
         {
-            // generate more colors that we need so we have a wide gamut to pick from
+            // generate at least as many colors that we need
             const double exponent = 3;
             
             double a = Math.Pow(paletteCount, 1 / exponent);
@@ -48,9 +54,12 @@ namespace ColorSpace
 
             for (int i = 0; i < max; i++)
             {
-                double red = Math.Floor(i / (@base * @base)) / (@base - 1);
-                double yellow = Math.Floor((i / @base) % @base) / (@base - 1);
-                double blue = Math.Floor(i % @base) / (@base - 1);
+                double red = Math.Floor(i / (@base * @base))
+                    / (@base - 1);
+                double yellow = Math.Floor((i / @base) % @base)
+                    / (@base - 1);
+                double blue = Math.Floor(i % @base)
+                    / (@base - 1);
 
                 RybColor color = new RybColor(red, yellow, blue);
                 m_colorPalette.Add(color);
@@ -59,7 +68,9 @@ namespace ColorSpace
             m_picked = null;
         }
 
-        
+        #endregion
+
+        #region Public Methods
 
         public RybColor PickNextColor()
         {
@@ -73,13 +84,7 @@ namespace ColorSpace
             }
 
             
-            List<Tuple<RybColor, double>> distances = new List<Tuple<RybColor, double>>();
-            foreach (var color in m_colorPalette)
-            {
-                distances.Add(Tuple.Create(color, DistanceFromLastPickedColor(color)));
-            }
-            
-            // pick the color that is farthest away from the last picked color
+            // pick (close to) the color that is farthest away from the last picked color
             var result = m_colorPalette.Aggregate<RybColor,Tuple<RybColor, double>>(
                 Tuple.Create(m_colorPalette[0], DistanceFromLastPickedColor(m_colorPalette[0])),
                 (acc, color) =>
@@ -94,7 +99,6 @@ namespace ColorSpace
             m_colorPalette.Remove(result.Item1);
 
             var pick = result.Item1;
-
             m_picked = new RybColor(
                 (m_pickedColorCount * m_picked.Red + pick.Red)
                     / (m_pickedColorCount + 1),
@@ -109,9 +113,15 @@ namespace ColorSpace
             return pick;
         }
 
+        #endregion
+
+        #region Private Methods
+
         private double DistanceFromLastPickedColor(RybColor color)
         {
             return RybColor.DistanceSquared(color, m_picked);
         }
+
+        #endregion
     }
 }
