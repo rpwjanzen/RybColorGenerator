@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="ColorSpace.ColorGeneratorView"
+    xmlns:colorSpace="clr-namespace:ColorSpace"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <colorSpace:RybColorToBrushConverter x:Key="RybColorToBrushConverter" />
+    </UserControl.Resources>
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button Command="{Binding GenerateColorsCommand}" Content="Generate"/>
+            <TextBox Text="{Binding CountText, Mode=TwoWay}" Width="30"/>
+            <TextBlock Text="colors." Margin="4"/>
+        </StackPanel>
+
+        <ListBox ItemsSource="{Binding Colors}" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Rectangle Width="15" Height="15" Fill="{Binding Converter={StaticResource RybColorToBrushConverter}}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
