@@ -1,8 +1,11 @@
-﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-             x:Class="ColorSpace.App"
-             >
+﻿<Application
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    x:Class="ColorSpace.App"
+    xmlns:controls="clr-namespace:Microsoft.Windows.Controls;assembly=Microsoft.Windows.Controls">
     <Application.Resources>
-        
+        <ItemsPanelTemplate x:Key="CatalogItemsPanelTemplate">
+            <controls:WrapPanel/>
+        </ItemsPanelTemplate>
     </Application.Resources>
 </Application>

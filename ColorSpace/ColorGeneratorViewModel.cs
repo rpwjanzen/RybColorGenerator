@@ -19,6 +19,23 @@ namespace ColorSpace
             get { return m_generateColorsCommand; }
         }
 
+        private int m_count;
+        public double Count
+        {
+            get { return m_count; }
+            set
+            {
+                if (m_count == value)
+                    return;
+
+                m_count = (int)value;
+                PropertyChanged(this, new PropertyChangedEventArgs("Count"));
+                CountText = value.ToString();
+
+                m_generateColorsCommand.Execute(m_count);
+            }
+        }
+
         private string m_countText;
         public string CountText
         {

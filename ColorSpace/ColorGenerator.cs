@@ -42,9 +42,12 @@ namespace ColorSpace
         #endregion
 
         #region Constructors
-
+        /// <param name="paletteCount">Min 3.</param>
         public ColorGenerator(int paletteCount)
         {
+            if (paletteCount < 3)
+                return;
+
             // generate at least as many colors that we need
             const double exponent = 3;
             
@@ -76,7 +79,10 @@ namespace ColorSpace
         {
             if (m_picked == null)
             {
-                m_picked = m_colorPalette[0];
+                m_picked = m_colorPalette.FirstOrDefault();
+                if (m_picked == null)
+                    return null;
+
                 m_colorPalette.RemoveAt(0);
                 Debug.WriteLine("Initial color is {0}", m_picked);
                 m_pickedColorCount = 1;
